@@ -9,6 +9,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  btnPrimary: {
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#3179f6',
+  },
+  textWhite: {
+    color: 'white',
+  },
 });
 
 function BubbleSheetScreen() {
@@ -26,8 +35,8 @@ function BubbleSheetScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPressTakeImage}>
-        <Text>Take Image</Text>
+      <TouchableOpacity style={styles.btnPrimary} onPress={onPressTakeImage}>
+        <Text style={styles.textWhite}>Take Bubble Sheet Image</Text>
       </TouchableOpacity>
     </View>
   );

@@ -13,7 +13,11 @@ function Navigator() {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="BubbleSheet">
-          <Stack.Screen name="BubbleSheet" component={BubbleSheetScreen} />
+          <Stack.Screen
+            name="BubbleSheet"
+            component={BubbleSheetScreen}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

@@ -14,6 +14,7 @@ target 'bubblesheetmobile' do
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
+
   target 'bubblesheetmobileTests' do
     inherit! :complete
     # Pods for testing

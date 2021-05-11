@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+
+import BubbleSheetAPI from '../common/api/bubble-sheet';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,15 +23,28 @@ const styles = StyleSheet.create({
 });
 
 function BubbleSheetScreen() {
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    if (imageData) {
+      BubbleSheetAPI.scanBubbleSheet(imageData)
+        .then(res => {
+          console.log('Success:', res);
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    }
+  }, [imageData]);
+
   const onPressTakeImage = () => {
     ImagePicker.openCamera({
-      width: 400,
-      height: 400,
+      width: 800,
+      height: 600,
       includeBase64: true,
       cropping: true,
     }).then(image => {
-      console.log(image);
-      console.log(`data:${image.mime};base64,${image.data}`);
+      setImageData(`data:${image.mime};base64,${image.data}`);
     });
   };
 

@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
-
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import Toast from 'react-native-toast-message';
 
 import BubbleSheetAPI from '../common/api/bubble-sheet';
+import { ToastStatus } from '../common/enum/toast.enum';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,14 +25,34 @@ const styles = StyleSheet.create({
 
 function BubbleSheetScreen() {
   const [imageData, setImageData] = useState(null);
+  const [scores, setScores] = useState([]);
 
   useEffect(() => {
     if (imageData) {
       BubbleSheetAPI.scanBubbleSheet(imageData)
         .then(res => {
-          console.log('Success:', res);
+          setScores(res);
+          console.log(res);
+          if (res.length > 0) {
+            Toast.show({
+              text1: 'Success',
+              text2: `${res.length} answers found.`,
+              type: ToastStatus.Success,
+            });
+          } else {
+            Toast.show({
+              text1: 'Info',
+              text2: `${res.length} answers found. Please check if it is correct bubble sheet.`,
+              type: ToastStatus.Info,
+            });
+          }
         })
         .catch(error => {
+          Toast.show({
+            text1: 'Error',
+            text2: 'Please check your internet connection.',
+            type: ToastStatus.Error,
+          });
           console.log('Error:', error);
         });
     }
@@ -53,6 +74,7 @@ function BubbleSheetScreen() {
       <TouchableOpacity style={styles.btnPrimary} onPress={onPressTakeImage}>
         <Text style={styles.textWhite}>Take Bubble Sheet Image</Text>
       </TouchableOpacity>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </View>
   );
 }
